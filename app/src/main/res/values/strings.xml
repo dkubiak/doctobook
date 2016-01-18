@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Doctobook</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="patientName">Pacient</string>
+    <string name="date">Data</string>
+    <string name="procedure">Procedura</string>
+    <string name="amount">Kwota</string>
+    <string name="save">Zapisz</string>
+    <string name="point">Punkty</string>
+    <string name="prosthetics">Protetyka</string>
+    <string name="endodontics">Endodoncja</string>
+    <string name="conservative">Zachowawcza</string>
+    <string name="alertWrongDateFormat">Zła data dd-mm-yyyy</string>
+    <string name="alertInfoVisitInserted">Wizyta zapisana!</string>
+    <string name="alertWrongVisitNotInserted">Wizyta NIE została zapisana!</string>
+</resources>

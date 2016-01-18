@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.github.npanigrahy/Custom-Calendar-View/v1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="39dc3bd7d37d4f5955432097fead1f4dd789e16c">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/com.github.npanigrahy-Custom-Calendar-View-v1.0_79b3d20a605833417879d2441fc27a9b6a3b5d23.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_6b4215a9c294f71c9edb7bdf80f822a9f5ab9c2f.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_c456b0f77ad8120c470f49025d873be0db3b4fa5.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_d02cb3c0bd955acebb7bbf0181da0fe86220dfb6.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.1.1_b8e2c85fc55c2d448b7a8dfacd36cf4ec0e87606.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_c2df90ecf944c3d960f00ad7c14cbed7ab136c4e.jar" />
+    </item>
+    <item
+        jar="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/Users/dawid.kubiak/workspace/priv/projects/tmp/doctobook/app/build/intermediates/pre-dexed/debug/com.android.support-design-23.1.1_3471e6b5f6d55ee517112522cb43b3115bf09a5b.jar" />
+    </item>
+
+</items>
