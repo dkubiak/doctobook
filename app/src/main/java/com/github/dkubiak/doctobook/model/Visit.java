@@ -14,7 +14,8 @@ public final class Visit {
     BigDecimal amount;
     int point;
 
-    public Visit(String patientName, Date date, ProcedureType procedureType, BigDecimal amount, int point) {
+    public Visit(long id, String patientName, Date date, ProcedureType procedureType, BigDecimal amount, int point) {
+        this.id = id;
         this.patientName = patientName;
         this.date = date;
         this.procedureType = procedureType;
@@ -42,7 +43,12 @@ public final class Visit {
         return point;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public final static class Builder {
+        private long id;
         private String patientName;
         private Date date;
         private ProcedureType procedureType;
@@ -79,8 +85,14 @@ public final class Visit {
             return this;
         }
 
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+
         public Visit createVisit() {
-            return new Visit(patientName, date, procedureType, amount, point);
+            return new Visit(id, patientName, date, procedureType, amount, point);
         }
     }
 

@@ -68,10 +68,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Visit> getVisitByDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         List<Visit> result = new ArrayList();
-        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "')", null);
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "') order by " + VISIT_COL_ID + " desc", null);
 
         while (row.moveToNext()) {
             Visit visit = new Visit.Builder()
+                    .setId(row.getLong(row.getColumnIndex(VISIT_COL_ID)))
                     .setAmount(row.getString(row.getColumnIndex(VISIT_COL_AMOUNT)))
                     .setPatientName(row.getString(row.getColumnIndex(VISIT_COL_PATIENT_NAME)))
                     .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
@@ -82,12 +83,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public Visit getVisitById(Long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where id=" + id, null);
+
+        row.moveToFirst();
+        Visit result = new Visit.Builder()
+                .setId(row.getLong(row.getColumnIndex(VISIT_COL_ID)))
+                .setAmount(row.getString(row.getColumnIndex(VISIT_COL_AMOUNT)))
+                .setPatientName(row.getString(row.getColumnIndex(VISIT_COL_PATIENT_NAME)))
+                .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
+                .createVisit();
+
+        return result;
+    }
+
     public BigDecimal amountByDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cur = db.rawQuery("select sum(AMOUNT) from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "')", null);
         if (cur.moveToFirst()) {
             String amount = cur.getString(0);
-            return amount==null ? BigDecimal.ZERO : new BigDecimal(amount);
+            return amount == null ? BigDecimal.ZERO : new BigDecimal(amount);
         }
         return BigDecimal.ZERO;
     }

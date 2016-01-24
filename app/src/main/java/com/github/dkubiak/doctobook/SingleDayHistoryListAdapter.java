@@ -37,7 +37,7 @@ public class SingleDayHistoryListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return visitItems.get(position).getId();
     }
 
     @Override
@@ -56,8 +56,8 @@ public class SingleDayHistoryListAdapter extends BaseAdapter {
         Visit visit = visitItems.get(position);
 
         tvPatientName.setText(visit.getPatientName());
-        tvAmount.setText(String.valueOf(visit.getAmount()));
-        tvPoint.setText(String.valueOf(visit.getPoint()));
+        tvAmount.setText(String.valueOf(visit.getAmount()) + " zł");
+        tvPoint.setText(String.valueOf(visit.getPoint()) + " pkt.");
 
         return convertView;
     }

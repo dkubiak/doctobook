@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:paddingLeft="10dp">
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/tvPatientName"
-            android:layout_weight="70" />
-
-        <TextView
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tvAmount"
-            android:layout_weight="15" />
+            android:textColor="@color/colorPrimary"
+            android:text="Imie i nazwisko" />
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvPoint"
-            android:layout_weight="15" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="15"
+                android:text="100 zł"
+                android:textColor="@color/colorAccent"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/tvPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="15"
+                android:textColor="@color/colorAccent"
+                android:text="100 pkt" />
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
