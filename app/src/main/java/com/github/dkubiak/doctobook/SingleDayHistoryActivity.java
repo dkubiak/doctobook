@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.dkubiak.doctobook.visit.AddVisitActivity;
+import com.github.dkubiak.doctobook.visit.UpdateVisitActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -54,13 +57,13 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent it = new Intent(SingleDayHistoryActivity.this, AddVisitActivity.class);
-                it.putExtra(AddVisitActivity.SELECT_VISIT_ID_PARAM, id);
+                Intent it = new Intent(SingleDayHistoryActivity.this, UpdateVisitActivity.class);
+                it.putExtra(UpdateVisitActivity.SELECT_VISIT_ID_PARAM, id);
+                finish();
                 startActivity(it);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

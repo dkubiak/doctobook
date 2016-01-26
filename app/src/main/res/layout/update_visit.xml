@@ -19,12 +19,12 @@
         <include layout="@layout/visit_fields_layout" />
 
         <Button
-            android:id="@+id/btAddVisit"
+            android:id="@+id/btUpdateVisit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|right"
             android:layout_marginTop="20dp"
-            android:text="@string/save" />
+            android:text="@string/update" />
     </LinearLayout>
 
 </LinearLayout>

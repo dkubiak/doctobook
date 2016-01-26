@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
+import com.github.dkubiak.doctobook.converter.DateConverter;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean addVisit(Visit visit) {
         SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.insert(TABLE_NAME_VISIT, null, getContentValues(visit));
+        if (result == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateVisit(Visit visit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.update(TABLE_NAME_VISIT, getContentValues(visit), VISIT_COL_ID + "=" + visit.getId(), null);
+        if (result == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    @NonNull
+    private ContentValues getContentValues(Visit visit) {
         ContentValues cv = new ContentValues();
         cv.put(VISIT_COL_PATIENT_NAME, visit.getPatientName());
         cv.put(VISIT_COL_PROCEDURE_TYPE_CONSERVATIVE, booleanToString(visit.getProcedureType().isConservative()));
@@ -57,29 +77,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(VISIT_COL_PROCEDURE_TYPE_PROSTHETICS, booleanToString(visit.getProcedureType().isProsthetics()));
         cv.put(VISIT_COL_AMOUNT, visit.getAmount().doubleValue());
         cv.put(VISIT_COL_POINT, visit.getPoint());
-        cv.put(VISIT_COL_DATE, new SimpleDateFormat("yyyy-MM-dd").format(visit.getDate()));
-        long result = db.insert(TABLE_NAME_VISIT, null, cv);
-        if (result == -1) {
-            return false;
-        }
-        return true;
+        cv.put(VISIT_COL_DATE, DateConverter.toStringDB(visit.getDate()));
+        return cv;
     }
 
     public List<Visit> getVisitByDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         List<Visit> result = new ArrayList();
-        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "') order by " + VISIT_COL_ID + " desc", null);
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "') order by " + VISIT_COL_ID + " desc", null);
 
         while (row.moveToNext()) {
-            Visit visit = new Visit.Builder()
-                    .setId(row.getLong(row.getColumnIndex(VISIT_COL_ID)))
-                    .setAmount(row.getString(row.getColumnIndex(VISIT_COL_AMOUNT)))
-                    .setPatientName(row.getString(row.getColumnIndex(VISIT_COL_PATIENT_NAME)))
-                    .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
-                    .createVisit();
-            result.add(visit);
+            result.add(buildSingleVisit(row));
         }
-
         return result;
     }
 
@@ -88,19 +97,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where id=" + id, null);
 
         row.moveToFirst();
-        Visit result = new Visit.Builder()
-                .setId(row.getLong(row.getColumnIndex(VISIT_COL_ID)))
-                .setAmount(row.getString(row.getColumnIndex(VISIT_COL_AMOUNT)))
-                .setPatientName(row.getString(row.getColumnIndex(VISIT_COL_PATIENT_NAME)))
-                .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
-                .createVisit();
+        return buildSingleVisit(row);
+    }
 
-        return result;
+    private Visit buildSingleVisit(Cursor row) {
+        try {
+            Visit.ProcedureType.Builder procedureTypeBuilder = new Visit.ProcedureType.Builder();
+            if (stringToBoolean(row.getString(row.getColumnIndex(VISIT_COL_PROCEDURE_TYPE_CONSERVATIVE)))) {
+                procedureTypeBuilder.isConservative();
+            }
+            if (stringToBoolean(row.getString(row.getColumnIndex(VISIT_COL_PROCEDURE_TYPE_ENDODONTICS)))) {
+                procedureTypeBuilder.isEndodontics();
+            }
+            if (stringToBoolean(row.getString(row.getColumnIndex(VISIT_COL_PROCEDURE_TYPE_PROSTHETICS)))) {
+                procedureTypeBuilder.isProsthetics();
+            }
+
+            return new Visit.Builder()
+                    .setId(row.getLong(row.getColumnIndex(VISIT_COL_ID)))
+                    .setAmount(row.getString(row.getColumnIndex(VISIT_COL_AMOUNT)))
+                    .setPatientName(row.getString(row.getColumnIndex(VISIT_COL_PATIENT_NAME)))
+                    .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
+                    .setDate(DateConverter.toDateFromDB(row.getString(row.getColumnIndex(VISIT_COL_DATE))))
+                    .setProcedureType(procedureTypeBuilder.createProcedureType())
+                    .createVisit();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public BigDecimal amountByDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cur = db.rawQuery("select sum(AMOUNT) from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "')", null);
+        Cursor cur = db.rawQuery("select sum(AMOUNT) from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "')", null);
         if (cur.moveToFirst()) {
             String amount = cur.getString(0);
             return amount == null ? BigDecimal.ZERO : new BigDecimal(amount);
@@ -110,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int pointByDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cur = db.rawQuery("select sum(POINT) from " + TABLE_NAME_VISIT + " where date=date('" + dateToString(date) + "')", null);
+        Cursor cur = db.rawQuery("select sum(POINT) from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "')", null);
         if (cur.moveToFirst()) {
             return (cur.getInt(0));
         }
@@ -121,8 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return value ? "T" : "F";
     }
 
-    private String dateToString(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return df.format(date);
+    private boolean stringToBoolean(String value) {
+        return "T".equals(value);
     }
 }

@@ -1,4 +1,4 @@
-package com.github.dkubiak.doctobook;
+package com.github.dkubiak.doctobook.visit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.dkubiak.doctobook.DatabaseHelper;
+import com.github.dkubiak.doctobook.R;
+import com.github.dkubiak.doctobook.SingleDayHistoryActivity;
+import com.github.dkubiak.doctobook.converter.DateConverter;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
@@ -18,10 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by dawid.kubiak on 08/01/16.
- */
-public class AddVisitActivity extends AppCompatActivity {
+public class UpdateVisitActivity extends AppCompatActivity {
 
     public static final String SELECT_VISIT_ID_PARAM = "SELECT_VISIT_ID_PARAM";
 
@@ -29,7 +30,7 @@ public class AddVisitActivity extends AppCompatActivity {
     private CheckBox checkProcedureTypeConservative;
     private CheckBox checkProcedureTypeEndodontics;
     private CheckBox checkProcedureTypeProsthetics;
-    private Button buttonAddVisit;
+    private Button buttonUpdateVisit;
     private DatabaseHelper db;
     private long visitId;
 
@@ -38,8 +39,16 @@ public class AddVisitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_visit);
+        setContentView(R.layout.update_visit);
 
+        init();
+
+        addToolbar();
+        showExistsVisit();
+        updateVisit();
+    }
+
+    private void init() {
         db = new DatabaseHelper(this);
         editPatientName = (EditText) findViewById(R.id.etPatientName);
         checkProcedureTypeConservative = (CheckBox) findViewById(R.id.cbConservative);
@@ -48,62 +57,60 @@ public class AddVisitActivity extends AppCompatActivity {
         editDate = (EditText) findViewById(R.id.etDate);
         editAmount = (EditText) findViewById(R.id.etAmount);
         editPoint = (EditText) findViewById(R.id.etPoint);
-        buttonAddVisit = (Button) findViewById(R.id.btAddVisit);
-
-        showExistsVisit();
-
-        addToolbar();
-        setDefaultDate();
-        saveVisit();
+        buttonUpdateVisit = (Button) findViewById(R.id.btUpdateVisit);
     }
 
     private void showExistsVisit() {
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.containsKey(SELECT_VISIT_ID_PARAM)) {
+
             this.visitId = (Long) extras.get(SELECT_VISIT_ID_PARAM);
             Visit visit = db.getVisitById(visitId);
             editAmount.setText(String.valueOf(visit.getAmount()));
             editPatientName.setText(String.valueOf(visit.getPatientName()));
             editPoint.setText(String.valueOf(visit.getPoint()));
-            editDate.setText(String.valueOf(visit.getDate()));
-            buttonAddVisit.setVisibility(View.INVISIBLE);
+            editDate.setText(DateConverter.toString(visit.getDate()));
+            checkProcedureTypeConservative.setChecked(visit.getProcedureType().isConservative());
+            checkProcedureTypeEndodontics.setChecked(visit.getProcedureType().isEndodontics());
+            checkProcedureTypeProsthetics.setChecked(visit.getProcedureType().isProsthetics());
         }
     }
 
-    private void saveVisit() {
-        buttonAddVisit.setOnClickListener(new View.OnClickListener() {
+    private void updateVisit() {
+        buttonUpdateVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    boolean isInserted = db.addVisit(new Visit.Builder()
+                    boolean isUpdated = db.updateVisit(new Visit.Builder()
+                            .setId(UpdateVisitActivity.this.visitId)
                             .setPatientName(editPatientName.getText().toString())
                             .setDate(DATE_FORMATTER.parse(editDate.getText().toString()))
                             .setAmount(getAmount())
                             .setPoint(getPoint())
                             .setProcedureType(getProcedureType())
                             .createVisit());
-                    if (isInserted) {
-                        Toast.makeText(AddVisitActivity.this, R.string.alertInfoVisitInserted, Toast.LENGTH_LONG).show();
-                        Intent it = new Intent(AddVisitActivity.this, SingleDayHistoryActivity.class);
+                    if (isUpdated) {
+                        Toast.makeText(UpdateVisitActivity.this, R.string.alertInfoVisitUpdated, Toast.LENGTH_LONG).show();
+                        Intent it = new Intent(UpdateVisitActivity.this, SingleDayHistoryActivity.class);
                         it.putExtra(SingleDayHistoryActivity.SELECT_DAY_PARAM, DATE_FORMATTER.parse(editDate.getText().toString()));
                         finish();
                         startActivity(it);
                     } else {
-                        Toast.makeText(AddVisitActivity.this, R.string.alertWrongVisitNotInserted, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UpdateVisitActivity.this, R.string.alertWrongVisitNotInserted, Toast.LENGTH_LONG).show();
                     }
                 } catch (ParseException e) {
-                    Toast.makeText(AddVisitActivity.this, R.string.alertWrongDateFormat, Toast.LENGTH_LONG).show();
+                    Toast.makeText(UpdateVisitActivity.this, R.string.alertWrongDateFormat, Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    int getPoint() {
+    private int getPoint() {
         String value = editPoint.getText().toString();
         return value.length() == 0 ? 0 : Integer.valueOf(value);
     }
 
-    BigDecimal getAmount() {
+    private BigDecimal getAmount() {
         String value = editAmount.getText().toString();
         return value.length() == 0 ? BigDecimal.ZERO : new BigDecimal(value);
     }
@@ -125,14 +132,6 @@ public class AddVisitActivity extends AppCompatActivity {
     private void addToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-    }
-
-    private void setDefaultDate() {
-        EditText etDate = (EditText) findViewById(R.id.etDate);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String dateNow = df.format(new Date());
-        etDate.setText(dateNow);
     }
 
     @Override

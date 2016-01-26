@@ -97,9 +97,9 @@ public final class Visit {
     }
 
     public final static class ProcedureType {
-        boolean prosthetics;
-        boolean endodontics;
-        boolean conservative;
+        boolean prosthetics = false;
+        boolean endodontics = false;
+        boolean conservative = false;
 
 
         public ProcedureType(boolean prosthetics, boolean endodontics, boolean conservative) {
