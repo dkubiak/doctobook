@@ -28,7 +28,6 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.history_single_day);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-
         showSummary();
         addList();
     }

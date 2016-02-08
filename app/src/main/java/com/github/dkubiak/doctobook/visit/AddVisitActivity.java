@@ -12,9 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.dkubiak.doctobook.DatabaseHelper;
+import com.github.dkubiak.doctobook.GlobalData;
 import com.github.dkubiak.doctobook.R;
 import com.github.dkubiak.doctobook.SingleDayHistoryActivity;
 import com.github.dkubiak.doctobook.converter.DateConverter;
+import com.github.dkubiak.doctobook.model.Office;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
@@ -29,6 +31,7 @@ public class AddVisitActivity extends AppCompatActivity {
     private CheckBox checkProcedureTypeEndodontics;
     private CheckBox checkProcedureTypeProsthetics;
     private Button buttonAddVisit;
+    private EditText editOfficeName, editCommissionPrivate, editCommissionPublic, editNfzConversion;
     private DatabaseHelper db;
 
 
@@ -36,9 +39,22 @@ public class AddVisitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_visit);
-
         init();
         addToolbar();
+
+        Office activeOffice = ((GlobalData) this.getApplicationContext()).getActiveOffice();
+        if (activeOffice != null) {
+            editNfzConversion = (EditText) findViewById(R.id.etNfzConversion);
+            editOfficeName = (EditText) findViewById(R.id.etOfficeName);
+            editCommissionPrivate = (EditText) findViewById(R.id.etProvisionPrivate);
+            editCommissionPublic = (EditText) findViewById(R.id.etProvisionPublic);
+
+            editOfficeName.setText(activeOffice.getName());
+            editNfzConversion.setText(String.valueOf(activeOffice.getNfzConversion()));
+            editCommissionPrivate.setText(String.valueOf(activeOffice.getCommissionPrivate()));
+            editCommissionPublic.setText(String.valueOf(activeOffice.getCommissionPublic()));
+        }
+
         setDefaultDate();
         saveVisit();
     }

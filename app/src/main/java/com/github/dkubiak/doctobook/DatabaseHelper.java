@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
 import com.github.dkubiak.doctobook.converter.DateConverter;
+import com.github.dkubiak.doctobook.model.Office;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
@@ -23,6 +24,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Doctobook.db";
     public static final String TABLE_NAME_VISIT = "visit_table";
+    public static final String TABLE_NAME_OFFICE = "office_table";
+    public static final String OFFICE_COL_ID = "ID";
+    public static final String OFFICE_COL_NAME = "NAME";
+    public static final String OFFICE_COL_COMMISSION_PRIVATE = "COMMISSION_PRIVATE";
+    public static final String OFFICE_COL_COMMISSION_PUBLIC = "COMMISSION_PUBLIC";
+    public static final String OFFICE_COL_NFZ_CONVERSION = "NFZ_CONVERSION";
+
     public static final String VISIT_COL_ID = "ID";
     public static final String VISIT_COL_PATIENT_NAME = "PATIENT_NAME";
     public static final String VISIT_COL_DATE = "DATE";
@@ -42,17 +50,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(ID INTEGER PRIMARY KEY AUTOINCREMENT, PATIENT_NAME TEXT, DATE TEXT," +
                 " PROCEDURE_TYPE_PROSTHETICS VARCHAR(1), PROCEDURE_TYPE_ENDODONTICS VARCHAR(1)," +
                 "PROCEDURE_TYPE_CONSERVATIVE VARCHAR(1), AMOUNT DECIMAL(10,2), POINT INTEGER)");
+
+        db.execSQL("create table " + TABLE_NAME_OFFICE +
+                "(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, COMMISSION_PRIVATE DECIMAL(10,2)," +
+                " COMMISSION_PUBLIC DECIMAL(10,2), NFZ_CONVERSION DECIMAL(10,2))");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_VISIT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_OFFICE);
         onCreate(db);
+    }
+
+    public boolean addOffice(Office office) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.insert(TABLE_NAME_OFFICE, null, getOfficeContentValues(office));
+        if (result == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateOffice(Office office) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.update(TABLE_NAME_OFFICE, getOfficeContentValues(office), OFFICE_COL_ID + "=" + office.getId(), null);
+        if (result == -1) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean removeOffice(Office office) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME_OFFICE, OFFICE_COL_ID + "=" + office.getId(), null);
+        if (result == -1) {
+            return false;
+        }
+        return true;
     }
 
     public boolean addVisit(Visit visit) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.insert(TABLE_NAME_VISIT, null, getContentValues(visit));
+        long result = db.insert(TABLE_NAME_VISIT, null, getVisitContentValues(visit));
         if (result == -1) {
             return false;
         }
@@ -61,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateVisit(Visit visit) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.update(TABLE_NAME_VISIT, getContentValues(visit), VISIT_COL_ID + "=" + visit.getId(), null);
+        long result = db.update(TABLE_NAME_VISIT, getVisitContentValues(visit), VISIT_COL_ID + "=" + visit.getId(), null);
         if (result == -1) {
             return false;
         }
@@ -69,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @NonNull
-    private ContentValues getContentValues(Visit visit) {
+    private ContentValues getVisitContentValues(Visit visit) {
         ContentValues cv = new ContentValues();
         cv.put(VISIT_COL_PATIENT_NAME, visit.getPatientName());
         cv.put(VISIT_COL_PROCEDURE_TYPE_CONSERVATIVE, booleanToString(visit.getProcedureType().isConservative()));
@@ -79,6 +119,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(VISIT_COL_POINT, visit.getPoint());
         cv.put(VISIT_COL_DATE, DateConverter.toStringDB(visit.getDate()));
         return cv;
+    }
+
+    private ContentValues getOfficeContentValues(Office office) {
+        ContentValues cv = new ContentValues();
+        cv.put(OFFICE_COL_NAME, office.getName());
+        cv.put(OFFICE_COL_NFZ_CONVERSION, office.getNfzConversion().doubleValue());
+        cv.put(OFFICE_COL_COMMISSION_PRIVATE, office.getCommissionPrivate().doubleValue());
+        cv.put(OFFICE_COL_COMMISSION_PUBLIC, office.getCommissionPublic().doubleValue());
+        return cv;
+    }
+
+    public List<Office> getAllOffices() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<Office> result = new ArrayList();
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_OFFICE + " order by " + OFFICE_COL_ID + " desc", null);
+
+        while (row.moveToNext()) {
+            result.add(buildSingleOffice(row));
+        }
+        return result;
+    }
+
+    public Office getOfficeByName(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_OFFICE + " where " + OFFICE_COL_NAME + "='" + name + "'", null);
+        if (row.moveToFirst()) {
+            return buildSingleOffice(row);
+        }
+        return null;
     }
 
     public List<Visit> getVisitByDay(Date date) {
@@ -98,6 +167,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         row.moveToFirst();
         return buildSingleVisit(row);
+    }
+
+    private Office buildSingleOffice(Cursor row) {
+        return new Office.Builder()
+                .setId(row.getLong(row.getColumnIndex(OFFICE_COL_ID)))
+                .setNfzConversion(row.getString(row.getColumnIndex(OFFICE_COL_NFZ_CONVERSION)))
+                .setCommissionPrivate(row.getString(row.getColumnIndex(OFFICE_COL_COMMISSION_PRIVATE)))
+                .setCommissionPublic(row.getString(row.getColumnIndex(OFFICE_COL_COMMISSION_PUBLIC)))
+                .setName(row.getString(row.getColumnIndex(OFFICE_COL_NAME)))
+                .createOffice();
     }
 
     private Visit buildSingleVisit(Cursor row) {

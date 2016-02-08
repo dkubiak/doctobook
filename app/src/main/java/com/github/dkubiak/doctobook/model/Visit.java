@@ -14,6 +14,11 @@ public final class Visit {
     BigDecimal amount;
     int point;
 
+    String officeName;
+    BigDecimal commissionPublic;
+    BigDecimal commissionPrivate;
+    BigDecimal nfzConversion;
+
     public Visit(long id, String patientName, Date date, ProcedureType procedureType, BigDecimal amount, int point) {
         this.id = id;
         this.patientName = patientName;

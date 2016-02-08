@@ -20,7 +20,7 @@
             android:text="Imie i nazwisko" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -42,5 +42,12 @@
                 android:text="100 pkt" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="100dp"
+            android:paddingRight="10dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
 </RelativeLayout>

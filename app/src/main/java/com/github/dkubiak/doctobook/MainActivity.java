@@ -8,22 +8,92 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.github.dkubiak.doctobook.model.Office;
+import com.github.dkubiak.doctobook.office.OfficeActivity;
 import com.github.dkubiak.doctobook.visit.AddVisitActivity;
 import com.imanoweb.calendarview.CalendarListener;
 import com.imanoweb.calendarview.CustomCalendarView;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Spinner spinnerOfficeList;
+    private DatabaseHelper db = new DatabaseHelper(this);
+    private String addNewOfficeItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        addNewOfficeItem = getString(R.string.addNewOffice);
         toolbar();
+        showOfficeList();
         calendar();
         fab();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        showOfficeList();
+    }
+
+    private void showOfficeList() {
+        spinnerOfficeList = (Spinner) findViewById(R.id.sprOfficeList);
+        ArrayList<String> list = new ArrayList<String>();
+        List<Office> allOffices = db.getAllOffices();
+        if (allOffices.isEmpty()) {
+            ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(null);
+            Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+            startActivity(it);
+            return;
+        }
+        for (Office office : allOffices) {
+            list.add(office.getName());
+        }
+        list.add(addNewOfficeItem);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_view, list);
+        spinnerOfficeList.setAdapter(adapter);
+
+        Office activeOffice = ((GlobalData) MainActivity.this.getApplicationContext()).getActiveOffice();
+        if (activeOffice != null) {
+            for (int i = 0; i < spinnerOfficeList.getCount(); i++) {
+                if (spinnerOfficeList.getItemAtPosition(i).equals(activeOffice.getName())) {
+                    spinnerOfficeList.setSelection(i);
+                    break;
+                }
+            }
+        } else {
+            Office officeSelected = db.getOfficeByName((String) spinnerOfficeList.getSelectedItem());
+            ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(officeSelected);
+        }
+        spinnerOfficeList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                if (addNewOfficeItem.equals(item)) {
+                    ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(null);
+                    Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+                    startActivity(it);
+                } else {
+                    Office officeSelected = db.getOfficeByName(item);
+                    ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(officeSelected);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void fab() {
@@ -46,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSelected(Date date) {
                 Intent it = new Intent(MainActivity.this, SingleDayHistoryActivity.class);
-                it.putExtra(SingleDayHistoryActivity.SELECT_DAY_PARAM,date);
+                it.putExtra(SingleDayHistoryActivity.SELECT_DAY_PARAM, date);
                 startActivity(it);
             }
 
@@ -77,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+            startActivity(it);
             return true;
         }
         return super.onOptionsItemSelected(item);

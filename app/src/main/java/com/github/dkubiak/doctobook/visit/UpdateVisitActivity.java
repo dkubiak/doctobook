@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.dkubiak.doctobook.DatabaseHelper;
+import com.github.dkubiak.doctobook.GlobalData;
 import com.github.dkubiak.doctobook.R;
 import com.github.dkubiak.doctobook.SingleDayHistoryActivity;
 import com.github.dkubiak.doctobook.converter.DateConverter;
@@ -40,7 +41,6 @@ public class UpdateVisitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_visit);
-
         init();
 
         addToolbar();

@@ -11,8 +11,20 @@
     <string name="endodontics">Endodoncja</string>
     <string name="conservative">Zachowawcza</string>
     <string name="alertWrongDateFormat">Zła data dd-mm-yyyy</string>
-    <string name="alertInfoVisitInserted">Wizyta zapisana!</string>
-    <string name="alertInfoVisitUpdated">Wizyta zaktualizowana!</string>
+    <string name="alertInfoOfficeInserted">Gabinet dodany</string>
+    <string name="alertInfoVisitInserted">Wizyta zapisana</string>
+    <string name="alertInfoVisitUpdated">Wizyta zaktualizowana</string>
     <string name="alertWrongVisitNotInserted">Wizyta NIE została zapisana!</string>
+    <string name="alertWrongOfficeNotInserted">Gabinet NIE został dodany!</string>
     <string name="update">Aktualizuj</string>
+    <string name="officeName">Gabinet</string>
+    <string name="provision">Prowizja</string>
+    <string name="commissionPublic">Publiczne</string>
+    <string name="commissionPrivate">Prywatne</string>
+    <string name="nfzConversion">Przelicznik NFZ</string>
+    <string name="choseOffice">Wybierz gabinet:</string>
+    <string name="addNewOffice">Dodaj nowy...</string>
+    <string name="alertInfoOfficeUpdated">Gabinet zaktualizowany</string>
+    <string name="alertWrongOfficeNotUpdated">Gabinet NIE został zaktualizowany!</string>
+    <string name="remove">Usuń</string>
 </resources>
