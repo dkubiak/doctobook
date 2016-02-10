@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/tvPatientName"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:text="Imie i nazwisko" />
@@ -42,6 +42,13 @@
                 android:text="100 pkt" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvGain"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="@color/colorAccent"
+            android:text="Σ 100 zł" />
 
         <ImageView
             android:id="@+id/imageView1"

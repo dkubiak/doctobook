@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:clickable="true">
+    android:orientation="vertical">
 
     <include layout="@layout/app_bar_layout" />
 
@@ -23,84 +23,81 @@
             android:textSize="30dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/amount"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/tvAmountSum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/point"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/tvPointSum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tvAmountSum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:textSize="20dp"
-                android:layout_marginLeft="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
+                android:id="@+id/tvGainSum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/point"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/tvPointSum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
                 android:textSize="20dp"
-                android:layout_marginLeft="18dp" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="50dp" />
         </LinearLayout>
     </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="1dp">-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="70"-->
-            <!--android:text="@string/patientName" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="15"-->
-            <!--android:text="@string/amount" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="15"-->
-            <!--android:text="@string/point" />-->
-    <!--</LinearLayout>-->
 
     <ListView
         android:id="@+id/listViewSingleDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#d8d8d8"
         android:divider="#ffffff"
         android:dividerHeight="5dp"
-        android:background="#d8d8d8"
         android:drawSelectorOnTop="false"
-        android:headerDividersEnabled="false"
         android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
         android:layoutMode="opticalBounds" />
 </LinearLayout>

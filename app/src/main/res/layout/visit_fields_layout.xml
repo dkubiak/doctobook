@@ -5,126 +5,150 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_marginTop="15dp"
+            android:text="@string/patientName" />
+
+        <EditText
+            android:id="@+id/etPatientName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:ems="10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/cbProsthetics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prosthetics" />
+
+        <CheckBox
+            android:id="@+id/cbEndodontics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/endodontics" />
+
+        <CheckBox
+            android:id="@+id/cbConservative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/conservative" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:text="@string/date" />
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:inputType="date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|left"
-                android:layout_marginTop="15dp"
-                android:text="@string/patientName" />
+                android:text="@string/amount" />
 
             <EditText
-                android:id="@+id/etPatientName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:ems="10" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/cbProsthetics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prosthetics" />
-
-            <CheckBox
-                android:id="@+id/cbEndodontics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/endodontics" />
-
-            <CheckBox
-                android:id="@+id/cbConservative"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/conservative" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:text="@string/date" />
-
-            <EditText
-                android:id="@+id/etDate"
-                android:layout_width="100dp"
+                android:id="@+id/etAmount"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
-                android:inputType="date" />
+                android:inputType="numberDecimal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_gravity="top|left"
+                android:text="@string/point" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
-                    android:text="@string/amount" />
-
-                <EditText
-                    android:id="@+id/etAmount"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:ems="10"
-                    android:inputType="numberDecimal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/etPoint"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
-                    android:text="@string/point" />
-
-                <EditText
-                    android:id="@+id/etPoint"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:ems="10"
-                    android:inputType="numberDecimal" />
-            </LinearLayout>
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:inputType="numberDecimal" />
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:text="@string/extraCosts" />
+
+        <EditText
+            android:id="@+id/etExtraCosts"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:text="PLN" />
+    </LinearLayout>
 
 
     <!--</LinearLayout>-->

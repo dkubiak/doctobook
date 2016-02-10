@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.github.dkubiak.doctobook.model.Visit;
+import com.github.dkubiak.doctobook.service.GainsCalculator;
 
 import java.util.List;
 
@@ -52,12 +53,15 @@ public class SingleDayHistoryListAdapter extends BaseAdapter {
         TextView tvPatientName = (TextView) convertView.findViewById(R.id.tvPatientName);
         TextView tvAmount = (TextView) convertView.findViewById(R.id.tvAmount);
         TextView tvPoint = (TextView) convertView.findViewById(R.id.tvPoint);
+        TextView tvGain = (TextView) convertView.findViewById(R.id.tvGain);
 
         Visit visit = visitItems.get(position);
 
+        GainsCalculator gainsCalculator = new GainsCalculator();
         tvPatientName.setText(visit.getPatientName());
-        tvAmount.setText(String.valueOf(visit.getAmount()) + " zł");
+        tvAmount.setText(String.valueOf(visit.getAmount()) + " PLN");
         tvPoint.setText(String.valueOf(visit.getPoint()) + " pkt.");
+        tvGain.setText("Σ " + String.valueOf(gainsCalculator.forSingleVisit(visit)) + " PLN");
 
         return convertView;
     }

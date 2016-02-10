@@ -24,16 +24,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AddVisitActivity extends AppCompatActivity {
+public class AddVisitActivity extends VisitActivityAbstract {
 
-    private EditText editPatientName, editAmount, editPoint, editDate;
-    private CheckBox checkProcedureTypeConservative;
-    private CheckBox checkProcedureTypeEndodontics;
-    private CheckBox checkProcedureTypeProsthetics;
     private Button buttonAddVisit;
-    private EditText editOfficeName, editCommissionPrivate, editCommissionPublic, editNfzConversion;
-    private DatabaseHelper db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,36 +34,23 @@ public class AddVisitActivity extends AppCompatActivity {
         setContentView(R.layout.add_visit);
         init();
         addToolbar();
+        setDefaultDate();
+        saveVisit();
+    }
+
+    protected void init() {
+        super.init();
+        db = new DatabaseHelper(this);
+        buttonAddVisit = (Button) findViewById(R.id.btAddVisit);
 
         Office activeOffice = ((GlobalData) this.getApplicationContext()).getActiveOffice();
         if (activeOffice != null) {
-            editNfzConversion = (EditText) findViewById(R.id.etNfzConversion);
-            editOfficeName = (EditText) findViewById(R.id.etOfficeName);
-            editCommissionPrivate = (EditText) findViewById(R.id.etProvisionPrivate);
-            editCommissionPublic = (EditText) findViewById(R.id.etProvisionPublic);
-
             editOfficeName.setText(activeOffice.getName());
             editNfzConversion.setText(String.valueOf(activeOffice.getNfzConversion()));
             editCommissionPrivate.setText(String.valueOf(activeOffice.getCommissionPrivate()));
             editCommissionPublic.setText(String.valueOf(activeOffice.getCommissionPublic()));
         }
-
-        setDefaultDate();
-        saveVisit();
     }
-
-    private void init() {
-        db = new DatabaseHelper(this);
-        editPatientName = (EditText) findViewById(R.id.etPatientName);
-        checkProcedureTypeConservative = (CheckBox) findViewById(R.id.cbConservative);
-        checkProcedureTypeEndodontics = (CheckBox) findViewById(R.id.cbEndodontics);
-        checkProcedureTypeProsthetics = (CheckBox) findViewById(R.id.cbProsthetics);
-        editDate = (EditText) findViewById(R.id.etDate);
-        editAmount = (EditText) findViewById(R.id.etAmount);
-        editPoint = (EditText) findViewById(R.id.etPoint);
-        buttonAddVisit = (Button) findViewById(R.id.btAddVisit);
-    }
-
 
     private void saveVisit() {
         buttonAddVisit.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +64,13 @@ public class AddVisitActivity extends AppCompatActivity {
                             .setAmount(getAmount())
                             .setPoint(getPoint())
                             .setProcedureType(getProcedureType())
+                            .setExtraCosts(editExtraCosts.getText().toString())
+                            .setOffice(new Office.Builder()
+                                    .setCommissionPrivate(editCommissionPrivate.getText().toString())
+                                    .setCommissionPublic(editCommissionPublic.getText().toString())
+                                    .setNfzConversion(editNfzConversion.getText().toString())
+                                    .setName(editOfficeName.getText().toString())
+                                    .createOffice())
                             .createVisit());
                     if (isInserted) {
                         Toast.makeText(AddVisitActivity.this, R.string.alertInfoVisitInserted, Toast.LENGTH_LONG).show();
@@ -101,36 +88,7 @@ public class AddVisitActivity extends AppCompatActivity {
         });
     }
 
-    int getPoint() {
-        String value = editPoint.getText().toString();
-        return value.length() == 0 ? 0 : Integer.valueOf(value);
-    }
-
-    BigDecimal getAmount() {
-        String value = editAmount.getText().toString();
-        return value.length() == 0 ? BigDecimal.ZERO : new BigDecimal(value);
-    }
-
-    Visit.ProcedureType getProcedureType() {
-        Visit.ProcedureType.Builder builder = new Visit.ProcedureType.Builder();
-        if (checkProcedureTypeConservative.isChecked()) {
-            builder.isConservative();
-        }
-        if (checkProcedureTypeEndodontics.isChecked()) {
-            builder.isEndodontics();
-        }
-        if (checkProcedureTypeProsthetics.isChecked()) {
-            builder.isProsthetics();
-        }
-        return builder.createProcedureType();
-    }
-
-    private void addToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-    }
-
-    private void setDefaultDate() {
+    protected void setDefaultDate() {
         EditText etDate = (EditText) findViewById(R.id.etDate);
         etDate.setText(DateConverter.toString(new Date()));
     }

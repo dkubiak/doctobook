@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.dkubiak.doctobook.service.GainsCalculator;
 import com.github.dkubiak.doctobook.visit.AddVisitActivity;
 import com.github.dkubiak.doctobook.visit.UpdateVisitActivity;
 
@@ -34,6 +35,8 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
 
     private void showSummary() {
 
+        GainsCalculator gainsCalculator = new GainsCalculator(db);
+
         Bundle extras = getIntent().getExtras();
         this.date = (Date) extras.get(SELECT_DAY_PARAM);
 
@@ -42,10 +45,13 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
         tvDate.setText(df.format(date));
 
         TextView tvAmountSum = (TextView) findViewById(R.id.tvAmountSum);
-        tvAmountSum.setText(String.valueOf(db.amountByDay(date)) + " zł");
+        tvAmountSum.setText(String.valueOf(db.amountByDay(date)) + " PLN");
 
         TextView tvPointSum = (TextView) findViewById(R.id.tvPointSum);
         tvPointSum.setText(String.valueOf(db.pointByDay(date)) + " pkt");
+
+        TextView tvGainSum = (TextView) findViewById(R.id.tvGainSum);
+        tvGainSum.setText("Σ " + String.valueOf(gainsCalculator.forSingleDay(date)) + " PLN");
     }
 
     private void addList() {

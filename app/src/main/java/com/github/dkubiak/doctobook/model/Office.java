@@ -29,8 +29,16 @@ public final class Office {
         return commissionPublic;
     }
 
+    public String getCommissionPublicAsString() {
+        return commissionPublic != null ? String.valueOf(commissionPublic) : "";
+    }
+
     public BigDecimal getCommissionPrivate() {
         return commissionPrivate;
+    }
+
+    public boolean isCommissionPrivate() {
+        return commissionPrivate != null;
     }
 
     public BigDecimal getNfzConversion() {
@@ -70,7 +78,10 @@ public final class Office {
         }
 
         private BigDecimal toBigDecimal(String value) {
-            return value.length() == 0 ? BigDecimal.ZERO : new BigDecimal(value);
+            if (value == null) {
+                return null;
+            }
+            return value.length() == 0 ? null : new BigDecimal(value);
         }
 
         public Office createOffice() {

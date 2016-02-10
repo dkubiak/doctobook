@@ -18,6 +18,8 @@
 
         <include layout="@layout/visit_fields_layout" />
 
+        <include layout="@layout/office_fields_layout" />
+
         <Button
             android:id="@+id/btUpdateVisit"
             android:layout_width="wrap_content"

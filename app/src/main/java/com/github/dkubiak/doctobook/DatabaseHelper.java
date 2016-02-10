@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by dawid.kubiak on 10/01/16.
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Doctobook.db";
@@ -39,6 +36,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String VISIT_COL_PROCEDURE_TYPE_CONSERVATIVE = "PROCEDURE_TYPE_CONSERVATIVE";
     public static final String VISIT_COL_AMOUNT = "AMOUNT";
     public static final String VISIT_COL_POINT = "POINT";
+    public static final String VISIT_COL_OFFICE_NAME = "OFFICE_NAME";
+    public static final String VISIT_COL_COMMISSION_PRIVATE = "COMMISSION_PRIVATE";
+    public static final String VISIT_COL_COMMISSION_PUBLIC = "COMMISSION_PUBLIC";
+    public static final String VISIT_COL_NFZ_CONVERSION = "NFZ_CONVERSION";
+    public static final String VISIT_COL_EXTRA_COSTS = "EXTRA_COSTS";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -49,7 +51,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME_VISIT + " " +
                 "(ID INTEGER PRIMARY KEY AUTOINCREMENT, PATIENT_NAME TEXT, DATE TEXT," +
                 " PROCEDURE_TYPE_PROSTHETICS VARCHAR(1), PROCEDURE_TYPE_ENDODONTICS VARCHAR(1)," +
-                "PROCEDURE_TYPE_CONSERVATIVE VARCHAR(1), AMOUNT DECIMAL(10,2), POINT INTEGER)");
+                "PROCEDURE_TYPE_CONSERVATIVE VARCHAR(1), AMOUNT DECIMAL(10,2), POINT INTEGER, " +
+                "OFFICE_NAME TEXT, COMMISSION_PRIVATE DECIMAL(10,2), COMMISSION_PUBLIC DECIMAL(10,2)," +
+                " NFZ_CONVERSION DECIMAL(10,2), EXTRA_COSTS DECIMAL(10,2))");
 
         db.execSQL("create table " + TABLE_NAME_OFFICE +
                 "(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, COMMISSION_PRIVATE DECIMAL(10,2)," +
@@ -118,6 +122,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(VISIT_COL_AMOUNT, visit.getAmount().doubleValue());
         cv.put(VISIT_COL_POINT, visit.getPoint());
         cv.put(VISIT_COL_DATE, DateConverter.toStringDB(visit.getDate()));
+        cv.put(VISIT_COL_EXTRA_COSTS, toDouble(visit.getExtraCosts()));
+        cv.put(VISIT_COL_COMMISSION_PRIVATE, toDouble(visit.getOffice().getCommissionPrivate()));
+        cv.put(VISIT_COL_COMMISSION_PUBLIC, toDouble(visit.getOffice().getCommissionPublic()));
+        cv.put(VISIT_COL_NFZ_CONVERSION, toDouble(visit.getOffice().getNfzConversion()));
+        cv.put(VISIT_COL_OFFICE_NAME, visit.getOffice().getName());
         return cv;
     }
 
@@ -199,6 +208,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     .setPoint(row.getInt(row.getColumnIndex(VISIT_COL_POINT)))
                     .setDate(DateConverter.toDateFromDB(row.getString(row.getColumnIndex(VISIT_COL_DATE))))
                     .setProcedureType(procedureTypeBuilder.createProcedureType())
+                    .setExtraCosts(row.getString(row.getColumnIndex(VISIT_COL_EXTRA_COSTS)))
+                    .setOffice(new Office.Builder()
+                            .setCommissionPrivate(row.getString(row.getColumnIndex(VISIT_COL_COMMISSION_PRIVATE)))
+                            .setName(row.getString(row.getColumnIndex(VISIT_COL_OFFICE_NAME)))
+                            .setCommissionPublic(row.getString(row.getColumnIndex(VISIT_COL_COMMISSION_PUBLIC)))
+                            .setNfzConversion(row.getString(row.getColumnIndex(VISIT_COL_NFZ_CONVERSION)))
+                            .createOffice())
                     .createVisit();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -231,5 +247,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private boolean stringToBoolean(String value) {
         return "T".equals(value);
+    }
+
+    private Double toDouble(BigDecimal value) {
+        return value != null ? value.doubleValue() : null;
     }
 }
