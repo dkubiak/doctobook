@@ -28,4 +28,6 @@
     <string name="alertWrongOfficeNotUpdated">Gabinet NIE został zaktualizowany!</string>
     <string name="remove">Usuń</string>
     <string name="extraCosts">Koszty dodatkowe</string>
+    <string name="chooseMonth">Wybierz miesiąc:</string>
+    <string name="action_summary">Podsumowanie</string>
 </resources>

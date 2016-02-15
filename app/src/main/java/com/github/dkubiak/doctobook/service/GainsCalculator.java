@@ -28,9 +28,18 @@ public class GainsCalculator {
         return sum;
     }
 
+    public String forSingleDayWithRound(Date date) {
+        return forSingleDay(date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    }
+
     public BigDecimal forSingleVisit(Visit visit) {
         return privateAmount(visit).add(publicAmount(visit)).subtract(visit.getExtraCosts());
     }
+
+    public String forSingleVisitWithRound(Visit visit) {
+        return forSingleVisit(visit).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    }
+
 
     private BigDecimal privateAmount(Visit visit) {
         return visit.getAmount().multiply(visit.getOffice().getCommissionPrivate().divide(BigDecimal.valueOf(100)));

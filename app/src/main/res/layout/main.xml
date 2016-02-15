@@ -17,17 +17,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="@string/choseOffice" />
 
         <Spinner
             android:id="@+id/sprOfficeList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|right"
-            android:gravity="right"
             android:spinnerMode="dropdown"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="1dp" />
     </LinearLayout>
 
     <include layout="@layout/calendar" />

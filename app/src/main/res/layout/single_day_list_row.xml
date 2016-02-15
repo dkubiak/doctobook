@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/tvGain"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="20dp"
             android:textColor="@color/colorAccent"
             android:text="Σ 100 zł" />

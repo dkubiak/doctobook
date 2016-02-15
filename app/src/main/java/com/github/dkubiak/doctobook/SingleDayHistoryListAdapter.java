@@ -61,7 +61,7 @@ public class SingleDayHistoryListAdapter extends BaseAdapter {
         tvPatientName.setText(visit.getPatientName());
         tvAmount.setText(String.valueOf(visit.getAmount()) + " PLN");
         tvPoint.setText(String.valueOf(visit.getPoint()) + " pkt.");
-        tvGain.setText("Σ " + String.valueOf(gainsCalculator.forSingleVisit(visit)) + " PLN");
+        tvGain.setText("Σ " + gainsCalculator.forSingleVisitWithRound(visit) + " PLN");
 
         return convertView;
     }

@@ -51,7 +51,7 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
         tvPointSum.setText(String.valueOf(db.pointByDay(date)) + " pkt");
 
         TextView tvGainSum = (TextView) findViewById(R.id.tvGainSum);
-        tvGainSum.setText("Σ " + String.valueOf(gainsCalculator.forSingleDay(date)) + " PLN");
+        tvGainSum.setText("Σ " + gainsCalculator.forSingleDayWithRound(date) + " PLN");
     }
 
     private void addList() {
