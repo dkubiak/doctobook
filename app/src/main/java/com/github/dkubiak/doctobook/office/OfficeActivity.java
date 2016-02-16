@@ -59,8 +59,9 @@ public class OfficeActivity extends AppCompatActivity {
                             .createOffice();
                     boolean isUpdated = db.updateOffice(office);
                     if (isUpdated) {
-                        ((GlobalData) OfficeActivity.this.getApplicationContext()).setActiveOffice(office);
+                        db.updateVisitByNewOffice(activeOffice, office);
                         Toast.makeText(OfficeActivity.this, R.string.alertInfoOfficeUpdated, Toast.LENGTH_LONG).show();
+                        ((GlobalData) OfficeActivity.this.getApplicationContext()).setActiveOffice(office);
                     } else {
                         Toast.makeText(OfficeActivity.this, R.string.alertWrongOfficeNotUpdated, Toast.LENGTH_LONG).show();
                     }

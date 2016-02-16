@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.dkubiak.doctobook.model.Office;
 import com.github.dkubiak.doctobook.service.GainsCalculator;
-import com.github.dkubiak.doctobook.visit.AddVisitActivity;
 import com.github.dkubiak.doctobook.visit.UpdateVisitActivity;
 
 import java.text.SimpleDateFormat;
@@ -22,11 +22,14 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
     public static final String SELECT_DAY_PARAM = "SELECT_DAY_PARAM";
     private DatabaseHelper db = new DatabaseHelper(this);
     private Date date;
+    private Office activeOffice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_single_day);
+        activeOffice = ((GlobalData) this.getApplicationContext()).getActiveOffice();
+        showActiveOffice();
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         showSummary();
@@ -45,18 +48,19 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
         tvDate.setText(df.format(date));
 
         TextView tvAmountSum = (TextView) findViewById(R.id.tvAmountSum);
-        tvAmountSum.setText(String.valueOf(db.amountByDay(date)) + " PLN");
+        tvAmountSum.setText(String.valueOf(db.amountByOfficeAndDay(activeOffice, date)) + " PLN");
 
         TextView tvPointSum = (TextView) findViewById(R.id.tvPointSum);
-        tvPointSum.setText(String.valueOf(db.pointByDay(date)) + " pkt");
+        tvPointSum.setText(String.valueOf(db.pointByOfficeAndDay(activeOffice, date)) + " pkt");
 
         TextView tvGainSum = (TextView) findViewById(R.id.tvGainSum);
-        tvGainSum.setText("Σ " + gainsCalculator.forSingleDayWithRound(date) + " PLN");
+        tvGainSum.setText("Σ " + gainsCalculator.forMeByDayWithRound(activeOffice, date) + " PLN");
     }
 
     private void addList() {
         ListView listView = (ListView) findViewById(R.id.listViewSingleDay);
-        SingleDayHistoryListAdapter adapter = new SingleDayHistoryListAdapter(this, db.getVisitByDay(date));
+        SingleDayHistoryListAdapter adapter = new SingleDayHistoryListAdapter(
+                this, db.getVisitByOfficeAndDay(activeOffice, date));
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,5 +78,11 @@ public class SingleDayHistoryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    private void showActiveOffice() {
+        if (activeOffice != null) {
+            setTitle(getString(R.string.app_name) + " - " + activeOffice.getName());
+        }
     }
 }

@@ -13,12 +13,18 @@ public class DateConverter {
 
     private static final SimpleDateFormat DATE_FORMATTER_DB = new SimpleDateFormat("yyyy-MM-dd");
 
+    private static final SimpleDateFormat DATE_FORMATTER_YEAR_AND_MONTH_DB = new SimpleDateFormat("yyyy-MM");
+
     public static String toString(java.util.Date date) {
         return DATE_FORMATTER.format(date);
     }
 
     public static String toStringDB(java.util.Date date) {
         return DATE_FORMATTER_DB.format(date);
+    }
+
+    public static String toStringYearAndMonthDB(java.util.Date date) {
+        return DATE_FORMATTER_YEAR_AND_MONTH_DB.format(date);
     }
 
     public static Date toDate(String date) throws ParseException {

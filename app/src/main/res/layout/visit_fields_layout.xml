@@ -68,7 +68,6 @@
             android:id="@+id/etDate"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:ems="10"
             android:inputType="date" />
@@ -95,7 +94,6 @@
                 android:id="@+id/etAmount"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
                 android:inputType="numberDecimal" />
@@ -149,7 +147,4 @@
             android:layout_gravity="top|left"
             android:text="PLN" />
     </LinearLayout>
-
-
-    <!--</LinearLayout>-->
 </LinearLayout>

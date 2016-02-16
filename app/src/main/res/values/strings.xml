@@ -27,7 +27,9 @@
     <string name="alertInfoOfficeUpdated">Gabinet zaktualizowany</string>
     <string name="alertWrongOfficeNotUpdated">Gabinet NIE został zaktualizowany!</string>
     <string name="remove">Usuń</string>
-    <string name="extraCosts">Koszty dodatkowe</string>
+    <string name="extraCosts">Dodatkowe koszty</string>
     <string name="chooseMonth">Wybierz miesiąc:</string>
     <string name="action_summary">Podsumowanie</string>
+    <string name="myGain">Mój zarobek:</string>
+    <string name="pointsForOfficeByMonth">w tym punktów NFZ:</string>
 </resources>

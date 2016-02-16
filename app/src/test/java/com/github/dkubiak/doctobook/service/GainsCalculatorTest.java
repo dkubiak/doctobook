@@ -25,7 +25,7 @@ public class GainsCalculatorTest {
                 .createVisit();
         //when
         GainsCalculator gainsCalculator = new GainsCalculator();
-        String singleVisit = gainsCalculator.forSingleVisitWithRound(visit);
+        String singleVisit = gainsCalculator.forMeSingleVisitWithRound(visit);
         //then
 
         assertThat(singleVisit).isEqualTo("43.80");

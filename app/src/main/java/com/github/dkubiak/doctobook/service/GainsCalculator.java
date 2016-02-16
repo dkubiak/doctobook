@@ -2,6 +2,7 @@ package com.github.dkubiak.doctobook.service;
 
 
 import com.github.dkubiak.doctobook.DatabaseHelper;
+import com.github.dkubiak.doctobook.model.Office;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
@@ -19,25 +20,47 @@ public class GainsCalculator {
         this.db = db;
     }
 
-    public BigDecimal forSingleDay(Date date) {
-        List<Visit> visits = db.getVisitByDay(date);
+    public BigDecimal forMeByDay(Office office, Date date) {
+        List<Visit> visits = db.getVisitByOfficeAndDay(office, date);
         BigDecimal sum = BigDecimal.ZERO;
         for (Visit visit : visits) {
-            sum = sum.add(forSingleVisit(visit));
+            sum = sum.add(forMeSingleVisit(visit));
         }
         return sum;
     }
 
-    public String forSingleDayWithRound(Date date) {
-        return forSingleDay(date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    public BigDecimal forMeByMonth(Office office, Date date) {
+        List<Visit> visits = db.getVisitByOfficeAndMonth(office, date);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Visit visit : visits) {
+            sum = sum.add(forMeSingleVisit(visit));
+        }
+        return sum;
     }
 
-    public BigDecimal forSingleVisit(Visit visit) {
+    public Integer pointsForOfficeByMonth(Office office, Date date) {
+        List<Visit> visits = db.getVisitByOfficeAndMonth(office, date);
+        int sum = 0;
+        for (Visit visit : visits) {
+            sum += visit.getPoint();
+        }
+        return sum;
+    }
+
+    public String forMeByMonthWithRound(Office office, Date date) {
+        return forMeByMonth(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    }
+
+    public String forMeByDayWithRound(Office office, Date date) {
+        return forMeByDay(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    }
+
+    public BigDecimal forMeSingleVisit(Visit visit) {
         return privateAmount(visit).add(publicAmount(visit)).subtract(visit.getExtraCosts());
     }
 
-    public String forSingleVisitWithRound(Visit visit) {
-        return forSingleVisit(visit).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+    public String forMeSingleVisitWithRound(Visit visit) {
+        return forMeSingleVisit(visit).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
     }
 
 

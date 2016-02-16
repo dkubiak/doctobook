@@ -159,10 +159,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public List<Visit> getVisitByDay(Date date) {
+    public List<Visit> getVisitByOfficeAndDay(Office office, Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         List<Visit> result = new ArrayList();
-        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "') order by " + VISIT_COL_ID + " desc", null);
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where "
+                + VISIT_COL_OFFICE_NAME + "='" + office.getName()
+                + "' AND date = date('" + DateConverter.toStringDB(date) + "')" +
+                " order by " + VISIT_COL_ID + " desc", null);
+
+        while (row.moveToNext()) {
+            result.add(buildSingleVisit(row));
+        }
+        return result;
+    }
+
+    public List<Visit> getVisitByOfficeAndMonth(Office office, Date date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<Visit> result = new ArrayList();
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where "
+                + VISIT_COL_OFFICE_NAME + "='" + office.getName()
+                + "' AND strftime('%Y-%m', DATE)='" + DateConverter.toStringYearAndMonthDB(date) + "'", null);
 
         while (row.moveToNext()) {
             result.add(buildSingleVisit(row));
@@ -222,9 +238,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public BigDecimal amountByDay(Date date) {
+    public BigDecimal amountByOfficeAndDay(Office office, Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cur = db.rawQuery("select sum(AMOUNT) from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "')", null);
+        Cursor cur = db.rawQuery("select sum(AMOUNT) from " + TABLE_NAME_VISIT + " where "
+                + VISIT_COL_OFFICE_NAME + "='" + office.getName()
+                + "' AND date=date('" + DateConverter.toStringDB(date) + "')", null);
         if (cur.moveToFirst()) {
             String amount = cur.getString(0);
             return amount == null ? BigDecimal.ZERO : new BigDecimal(amount);
@@ -232,9 +250,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return BigDecimal.ZERO;
     }
 
-    public int pointByDay(Date date) {
+    public int pointByOfficeAndDay(Office office, Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cur = db.rawQuery("select sum(POINT) from " + TABLE_NAME_VISIT + " where date=date('" + DateConverter.toStringDB(date) + "')", null);
+        Cursor cur = db.rawQuery("select sum(POINT) from " + TABLE_NAME_VISIT + " where "
+                + VISIT_COL_OFFICE_NAME + "='" + office.getName()
+                + "' AND date=date('" + DateConverter.toStringDB(date) + "')", null);
         if (cur.moveToFirst()) {
             return (cur.getInt(0));
         }
@@ -251,5 +271,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Double toDouble(BigDecimal value) {
         return value != null ? value.doubleValue() : null;
+    }
+
+    public boolean updateVisitByNewOffice(Office oldOffice, Office newOffice) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(VISIT_COL_OFFICE_NAME, newOffice.getName());
+
+        long result = db.update(TABLE_NAME_VISIT, cv, VISIT_COL_OFFICE_NAME + "='" + oldOffice.getName() + "'", null);
+        if (result == -1) {
+            return false;
+        }
+        return true;
     }
 }
