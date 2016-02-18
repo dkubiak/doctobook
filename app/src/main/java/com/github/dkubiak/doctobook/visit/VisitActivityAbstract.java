@@ -1,27 +1,20 @@
 package com.github.dkubiak.doctobook.visit;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.github.dkubiak.doctobook.DatabaseHelper;
-import com.github.dkubiak.doctobook.GlobalData;
 import com.github.dkubiak.doctobook.R;
-import com.github.dkubiak.doctobook.SingleDayHistoryActivity;
-import com.github.dkubiak.doctobook.converter.DateConverter;
-import com.github.dkubiak.doctobook.model.Office;
+import com.github.dkubiak.doctobook.SummaryActivity;
 import com.github.dkubiak.doctobook.model.Visit;
+import com.github.dkubiak.doctobook.office.AddOfficeActivity;
+import com.github.dkubiak.doctobook.office.UpdateOfficeActivity;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
 
 public abstract class VisitActivityAbstract extends AppCompatActivity {
 
@@ -72,6 +65,21 @@ public abstract class VisitActivityAbstract extends AppCompatActivity {
             builder.isProsthetics();
         }
         return builder.createProcedureType();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent it = new Intent(this, UpdateOfficeActivity.class);
+            startActivity(it);
+            return true;
+        } else if (id == R.id.action_summary) {
+            Intent it = new Intent(this, SummaryActivity.class);
+            startActivity(it);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void addToolbar() {

@@ -194,6 +194,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return buildSingleVisit(row);
     }
 
+    public boolean deleteVisitById(Long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_NAME_VISIT, "id=" + id, null);
+        if (result == -1) {
+            return false;
+        }
+        return true;
+
+    }
+
     private Office buildSingleOffice(Cursor row) {
         return new Office.Builder()
                 .setId(row.getLong(row.getColumnIndex(OFFICE_COL_ID)))

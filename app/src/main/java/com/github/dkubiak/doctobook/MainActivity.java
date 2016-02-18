@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.github.dkubiak.doctobook.model.Office;
-import com.github.dkubiak.doctobook.office.OfficeActivity;
+import com.github.dkubiak.doctobook.office.AddOfficeActivity;
+import com.github.dkubiak.doctobook.office.UpdateOfficeActivity;
 import com.github.dkubiak.doctobook.visit.AddVisitActivity;
 import com.imanoweb.calendarview.CalendarListener;
 import com.imanoweb.calendarview.CustomCalendarView;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         List<Office> allOffices = db.getAllOffices();
         if (allOffices.isEmpty()) {
             ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(null);
-            Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+            Intent it = new Intent(MainActivity.this, AddOfficeActivity.class);
             startActivity(it);
             return;
         }
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 String item = parent.getItemAtPosition(position).toString();
                 if (addNewOfficeItem.equals(item)) {
                     ((GlobalData) MainActivity.this.getApplicationContext()).setActiveOffice(null);
-                    Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+                    Intent it = new Intent(MainActivity.this, AddOfficeActivity.class);
                     startActivity(it);
                 } else {
                     Office officeSelected = db.getOfficeByName(item);
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent it = new Intent(MainActivity.this, OfficeActivity.class);
+            Intent it = new Intent(MainActivity.this, UpdateOfficeActivity.class);
             startActivity(it);
             return true;
         } else if (id == R.id.action_summary) {

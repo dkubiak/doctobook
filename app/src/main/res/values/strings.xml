@@ -14,6 +14,8 @@
     <string name="alertInfoOfficeInserted">Gabinet dodany</string>
     <string name="alertInfoVisitInserted">Wizyta zapisana</string>
     <string name="alertInfoVisitUpdated">Wizyta zaktualizowana</string>
+    <string name="alertInfoVisitDeleted">Wizyta została usunięta</string>
+    <string name="alertInfoOfficeDeleted">Gabinet został usunięty!</string>
     <string name="alertWrongVisitNotInserted">Wizyta NIE została zapisana!</string>
     <string name="alertWrongOfficeNotInserted">Gabinet NIE został dodany!</string>
     <string name="update">Aktualizuj</string>
@@ -30,6 +32,10 @@
     <string name="extraCosts">Dodatkowe koszty</string>
     <string name="chooseMonth">Wybierz miesiąc:</string>
     <string name="action_summary">Podsumowanie</string>
-    <string name="myGain">Mój zarobek:</string>
+    <string name="myGain">Mój zysk:</string>
     <string name="pointsForOfficeByMonth">w tym punktów NFZ:</string>
+    <string name="RemoveVisit">Usuń wizytę</string>
+    <string name="AreYouSure">Jesteś tego pewien?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 </resources>

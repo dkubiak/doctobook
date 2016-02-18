@@ -1,11 +1,15 @@
 package com.github.dkubiak.doctobook.service;
 
 
+import android.support.annotation.NonNull;
+
 import com.github.dkubiak.doctobook.DatabaseHelper;
 import com.github.dkubiak.doctobook.model.Office;
 import com.github.dkubiak.doctobook.model.Visit;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +52,20 @@ public class GainsCalculator {
     }
 
     public String forMeByMonthWithRound(Office office, Date date) {
-        return forMeByMonth(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+        return amountFormatter(forMeByMonth(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
 
     public String forMeByDayWithRound(Office office, Date date) {
-        return forMeByDay(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+        return amountFormatter(forMeByDay(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN));
+    }
+
+    @NonNull
+    private String amountFormatter(Object object) {
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+        symbols.setGroupingSeparator(' ');
+        DecimalFormat decimalFormat = new DecimalFormat("###,###.##", symbols);
+
+        return decimalFormat.format(object);
     }
 
     public BigDecimal forMeSingleVisit(Visit visit) {
@@ -60,7 +73,7 @@ public class GainsCalculator {
     }
 
     public String forMeSingleVisitWithRound(Visit visit) {
-        return forMeSingleVisit(visit).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString();
+        return amountFormatter(forMeSingleVisit(visit).setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
 
 

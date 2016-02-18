@@ -1,9 +1,11 @@
 package com.github.dkubiak.doctobook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.dkubiak.doctobook.model.Office;
+import com.github.dkubiak.doctobook.office.AddOfficeActivity;
+import com.github.dkubiak.doctobook.office.UpdateOfficeActivity;
 import com.github.dkubiak.doctobook.service.GainsCalculator;
 
 import org.joda.time.LocalDate;
@@ -55,7 +59,7 @@ public class SummaryActivity extends AppCompatActivity {
                     chooseMonth = simpleDateFormat.parse(item);
 
                     TextView tvGainMonthSum = (TextView) findViewById(R.id.tvGainMonthSum);
-                    tvGainMonthSum.setText(gainsCalculator.forMeByMonthWithRound(activeOffice, chooseMonth) + " PLN");
+                    tvGainMonthSum.setText(gainsCalculator.forMeByMonthWithRound(activeOffice, chooseMonth) + " zł");
 
                     TextView tvGainPointsMonthSum = (TextView) findViewById(R.id.tvGainPointsMonthSum);
                     tvGainPointsMonthSum.setText(gainsCalculator.pointsForOfficeByMonth(activeOffice, chooseMonth) + " pkt");
@@ -88,5 +92,16 @@ public class SummaryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent it = new Intent(this, UpdateOfficeActivity.class);
+            startActivity(it);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

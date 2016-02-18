@@ -85,7 +85,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="50dp" />
+                android:layout_marginLeft="30dp" />
         </LinearLayout>
     </LinearLayout>
 
