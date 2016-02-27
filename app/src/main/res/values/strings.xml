@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Doctobook</string>
     <string name="action_settings">Ustawienia</string>
-    <string name="patientName">Pacient</string>
+    <string name="patientName">Pacjent</string>
     <string name="date">Data</string>
     <string name="procedure">Procedura</string>
     <string name="amount">Kwota</string>
@@ -38,4 +38,5 @@
     <string name="AreYouSure">Jesteś tego pewien?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="myGainAllOffice">Wszystkie gabinety:</string>
 </resources>

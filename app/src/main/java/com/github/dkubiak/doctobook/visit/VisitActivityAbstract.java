@@ -29,9 +29,6 @@ public abstract class VisitActivityAbstract extends AppCompatActivity {
     protected void init() {
         db = new DatabaseHelper(this);
         editPatientName = (EditText) findViewById(R.id.etPatientName);
-        checkProcedureTypeConservative = (CheckBox) findViewById(R.id.cbConservative);
-        checkProcedureTypeEndodontics = (CheckBox) findViewById(R.id.cbEndodontics);
-        checkProcedureTypeProsthetics = (CheckBox) findViewById(R.id.cbProsthetics);
         editDate = (EditText) findViewById(R.id.etDate);
         editAmount = (EditText) findViewById(R.id.etAmount);
         editPoint = (EditText) findViewById(R.id.etPoint);
@@ -55,15 +52,6 @@ public abstract class VisitActivityAbstract extends AppCompatActivity {
 
     protected Visit.ProcedureType getProcedureType() {
         Visit.ProcedureType.Builder builder = new Visit.ProcedureType.Builder();
-        if (checkProcedureTypeConservative.isChecked()) {
-            builder.isConservative();
-        }
-        if (checkProcedureTypeEndodontics.isChecked()) {
-            builder.isEndodontics();
-        }
-        if (checkProcedureTypeProsthetics.isChecked()) {
-            builder.isProsthetics();
-        }
         return builder.createProcedureType();
     }
 

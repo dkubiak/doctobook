@@ -28,32 +28,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/cbProsthetics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/prosthetics" />
-
-        <CheckBox
-            android:id="@+id/cbEndodontics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/endodontics" />
-
-        <CheckBox
-            android:id="@+id/cbConservative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/conservative" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView

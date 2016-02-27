@@ -186,6 +186,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public List<Visit> getVisitByMonth(Date date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<Visit> result = new ArrayList();
+        Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where "
+                + "strftime('%Y-%m', DATE)='" + DateConverter.toStringYearAndMonthDB(date) + "'", null);
+
+        while (row.moveToNext()) {
+            result.add(buildSingleVisit(row));
+        }
+        return result;
+    }
+
     public Visit getVisitById(Long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor row = db.rawQuery("select * from " + TABLE_NAME_VISIT + " where id=" + id, null);

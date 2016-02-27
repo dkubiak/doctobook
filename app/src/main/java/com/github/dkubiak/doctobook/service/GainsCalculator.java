@@ -42,6 +42,15 @@ public class GainsCalculator {
         return sum;
     }
 
+    public BigDecimal forMeByMonth(Date date) {
+        List<Visit> visits = db.getVisitByMonth(date);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Visit visit : visits) {
+            sum = sum.add(forMeSingleVisit(visit));
+        }
+        return sum;
+    }
+
     public Integer pointsForOfficeByMonth(Office office, Date date) {
         List<Visit> visits = db.getVisitByOfficeAndMonth(office, date);
         int sum = 0;
@@ -51,8 +60,13 @@ public class GainsCalculator {
         return sum;
     }
 
+
     public String forMeByMonthWithRound(Office office, Date date) {
         return amountFormatter(forMeByMonth(office, date).setScale(2, BigDecimal.ROUND_HALF_EVEN));
+    }
+
+    public String forMeByMonthWithRound(Date date) {
+        return amountFormatter(forMeByMonth(date).setScale(2, BigDecimal.ROUND_HALF_EVEN));
     }
 
     public String forMeByDayWithRound(Office office, Date date) {

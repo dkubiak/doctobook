@@ -61,6 +61,9 @@ public class SummaryActivity extends AppCompatActivity {
                     TextView tvGainMonthSum = (TextView) findViewById(R.id.tvGainMonthSum);
                     tvGainMonthSum.setText(gainsCalculator.forMeByMonthWithRound(activeOffice, chooseMonth) + " zł");
 
+                    TextView tvGainMonthSumAllOffice = (TextView) findViewById(R.id.tvGainMonthSumAllOffice);
+                    tvGainMonthSumAllOffice.setText(gainsCalculator.forMeByMonthWithRound(chooseMonth) + " zł");
+
                     TextView tvGainPointsMonthSum = (TextView) findViewById(R.id.tvGainPointsMonthSum);
                     tvGainPointsMonthSum.setText(gainsCalculator.pointsForOfficeByMonth(activeOffice, chooseMonth) + " pkt");
 
