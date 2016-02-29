@@ -19,9 +19,6 @@ import java.math.BigDecimal;
 public abstract class VisitActivityAbstract extends AppCompatActivity {
 
     protected EditText editPatientName, editAmount, editPoint, editDate, editExtraCosts;
-    protected CheckBox checkProcedureTypeConservative;
-    protected CheckBox checkProcedureTypeEndodontics;
-    protected CheckBox checkProcedureTypeProsthetics;
     protected EditText editOfficeName, editCommissionPrivate, editCommissionPublic, editNfzConversion;
     protected DatabaseHelper db;
 

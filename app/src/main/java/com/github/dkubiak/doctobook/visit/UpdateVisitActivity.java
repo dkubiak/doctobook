@@ -59,9 +59,6 @@ public class UpdateVisitActivity extends VisitActivityAbstract {
             editPoint.setText(String.valueOf(visit.getPoint()));
             editDate.setText(DateConverter.toString(visit.getDate()));
             editExtraCosts.setText(String.valueOf(visit.getExtraCosts()));
-            checkProcedureTypeConservative.setChecked(visit.getProcedureType().isConservative());
-            checkProcedureTypeEndodontics.setChecked(visit.getProcedureType().isEndodontics());
-            checkProcedureTypeProsthetics.setChecked(visit.getProcedureType().isProsthetics());
 
             editCommissionPrivate.setText(String.valueOf(visit.getOffice().getCommissionPrivate()));
 
