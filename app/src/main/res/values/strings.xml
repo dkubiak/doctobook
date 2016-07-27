@@ -39,4 +39,8 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="myGainAllOffice">Wszystkie gabinety:</string>
+    <string name="exportDatabase">Export DB</string>
+    <string name="importDatabase">Import DB</string>
+    <string name="alertInfoDatabaseWasExported">Wyeksportowano</string>
+    <string name="alertInfoDatabaseWasImported">Zaimportowano!</string>
 </resources>
